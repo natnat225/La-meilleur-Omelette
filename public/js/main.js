@@ -74,7 +74,25 @@ let personne = {
       this.contenu = [newMelange];
     },
 }
+/* Pour dire que le personnage est à la maison :
+Avec l'objet personnage, utiliser la method seDeplacer et de passer en paramètre l'objet maison
+Afficher un message tel que :
+console.log(personnage.nom + " est actuellement à la " + personnage.lieu); */
+  personne.seDeplacer(maison);
+  personne.seDeplacer(epicerie);
   
+/*   Pour aller à l'épicerie acheter les ingrédients pour l'omelette, je répète la première étape en changeant le parametre de la method seDeplacer par l'epicerie
+  Mon personnage prend un des paniers dans l'épicerie (il récupère le panier dans les objets de l'épicerie et le met dans sa main droite.) */
+  let panier = epicerie.paniers.pop();
+  personne.mainDroite.push(panier);
+  console.log(`${personne.nom} a pris un ${panier.type}`);
+  
+  // Prendre chaque ingrédient dans l'épicerie, les mettre dans le panier et les payer
+  for (let ingredient of epicerie.ingredients) {
+    personne.mainDroite[0].contenu.push({ ...ingredient });
+    console.log(`${personne.nom} a pris ${ingredient.nom} dans l'epicerie`);
+    personne.payerArticle(ingredient);
+  }
 
 
   
