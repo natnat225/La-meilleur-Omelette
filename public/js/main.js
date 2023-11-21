@@ -21,8 +21,7 @@ let personne = {
   
     payerArticle(article) {
         this.argent -= article.prix;
-        console.log(`${this.nom} a paye ${article.prix}
-         pour ${article.nom} Argent restant : ${this.argent}`);
+        console.log(`${this.nom} a paye ${article.prix} pour ${article.nom} il lui reste : ${this.argent}`);
 
     },
   
@@ -66,24 +65,25 @@ let personne = {
   
 /*   Créer un poele avec un tableau comme contenu. Et avec une méthode cuir() qui, 
   après 4 secondes, met l'état 'cuit' à this.contenu[0]. On peut faire ça avec la fonction setTimeout(()=> {}, 4000) */
-  const poele = {
+  let poele = {
     contenu: [],
     cuir() {
         this.contenu[0].etat = "cuit";
       ;}
-    },
+    }
 
   
     /* Créer un bol avec un tableau comme contenu
     ajouter une méthode melanger(nomMelange) qui va créer un nouvel objet "newMelange" avec comme nom la variable nomMelange passé en paramètre et avec 'pas cuit' en etat. 
     cette méthode remplacera this.contenu par [l'obj newMelange] */
-  let bol = {
-    contenu: [],
-    melanger(nomMelange) {
-      const newMelange = { nom: nomMelange, etat: "pas cuit" };
-      this.contenu = [newMelange];
-    },
-}
+    const bol = {
+        contenu: [],
+        melanger(nomMelange) {
+          let newMelange = { nom: nomMelange, etat: "pas cuit" };
+          this.contenu = [newMelange];
+          console.log(`${nomMelange} a ete melange dans le bol.`);
+        },
+      };
 /* Pour dire que le personnage est à la maison :
 Avec l'objet personnage, utiliser la method seDeplacer et de passer en paramètre l'objet maison
 Afficher un message tel que :
@@ -105,7 +105,7 @@ console.log(`${personnage.nom} a pris un ${type du panier}`) */
 Afficher un message de ce qu'il reste d'argent sur le personnage.
 rentrer à la maison (comme ça on pourra cuisiner) */
   for (let ingredient of epicerie.ingredients) {
-    personne.mainDroite[0].contenu.push({ ingredient })
+    personne.mainDroite[0].contenu.push({ ...ingredient })
     console.log(`${personne.nom} a pris ${ingredient.nom} dans l'epicerie`)
     personne.payerArticle(ingredient)
   }
@@ -118,7 +118,7 @@ rentrer à la maison (comme ça on pourra cuisiner) */
 Vérifier que les ingrédients ne se trouvent plus dans le panier (oups ! on a oublié de le rapporter x)
 Afficher un petit message de chaque ingrédient qu'on met dans le bol. */
   for (let ingredient of personne.mainDroite[0].contenu) {
-    bol.contenu.push({ ingredient });
+    bol.contenu.push({ ...ingredient });
     console.log(`${ingredient.nom} a ete mis dans le bol`);
   }
   
@@ -129,7 +129,7 @@ Afficher un petit message de chaque ingrédient qu'on met dans le bol. */
   Retourner à la maison pour continuer l'omelette */
   personne.seDeplacer(epicerie);
   epicerie.paniers.push(personne.mainDroite.pop());
-  console.log(`${personne.nom} a rapporté le panier à l'epicerie`);
+  console.log(`${personne.nom} a rapporte le panier à l'epicerie`);
   
  
   personne.seDeplacer(maison);
@@ -137,7 +137,17 @@ Afficher un petit message de chaque ingrédient qu'on met dans le bol. */
 /*   Vérifier chaque ingrédient dans le bol et le couper seulement s'il est entier ! 
   Pour ça on utilise la méthode couper de personnage */
   for (let ingredient of bol.contenu) {
-    personne.couper(ingredient, couteau);
+    personne.couper( ingredient, couteau);
   }
+    // Mélanger le contenu du bol pour créer une omelette
+    bol.melanger("omelette");
   
-  
+    // Vider le contenu du bol dans la poele
+    poele.contenu = [...bol.contenu];
+    bol.contenu = [];
+    console.log("Le contenu du bol a ete verser dans la poele.");
+    
+    // Cuire l'omelette
+    poele.cuir();
+    
+    console.log("l'omelette est cuite bonne appetit !")
