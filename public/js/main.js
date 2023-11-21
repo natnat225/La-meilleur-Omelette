@@ -139,15 +139,17 @@ Afficher un petit message de chaque ingrédient qu'on met dans le bol. */
   for (let ingredient of bol.contenu) {
     personne.couper( ingredient, couteau);
   }
-    // Mélanger le contenu du bol pour créer une omelette
+/*   Mélanger le contenu du bol avec la méthode melanger. on va nommer ce mélange une 'omelette' (à passer en param).
+Afficher un message avec le nouveau mélange
+vider le contenu du bol dans la poele. Il ne doit plus rien avoir dans le bol et y avoir juste l'omelette pas cuite.
+Cuire l'omelette avec la méthode de la poele
+Afficher un message final, notre omelette est cuite :) */
     bol.melanger("omelette");
   
-    // Vider le contenu du bol dans la poele
     poele.contenu = [...bol.contenu];
     bol.contenu = [];
     console.log("Le contenu du bol a ete verser dans la poele.");
     
-    // Cuire l'omelette
     poele.cuir();
     
     console.log("l'omelette est cuite bonne appetit !")
