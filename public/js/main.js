@@ -8,23 +8,33 @@ payerArticle(article)
 couper(ingredient, outil) */
 let personne = {
     nom: "Nathan",
-    lieu: "",
+    lieu: "Molengeek",
     argent: 100,
     mainDroite: [],
     mainGauche: [],
   
     seDeplacer(lieu) {
+        this.lieu = lieu.nom;
+        console.log(`${this.nom} est actuellement a la ${this.lieu}`);
   
     },
   
     payerArticle(article) {
+        this.argent -= article.prix;
+        console.log(`${this.nom} a paye ${article.prix}
+         pour ${article.nom} Argent restant : ${this.argent}`);
 
     },
   
     couper(ingredient, outil) {
-
-    },
-}
+        if (ingredient.etat === "entier") {
+          ingredient.etat = outil.action;
+          console.log(`${this.nom} a couper ${ingredient.nom} avec un ${outil.nom}`);
+        } else {
+          console.log(`${ingredient.nom} est deja couper`);
+        }
+      }
+    };
   
   
 /* Créer un lieu "maison" (un objet) avec comme propriété " nom: 'maison' " et " personnes
@@ -83,16 +93,51 @@ console.log(personnage.nom + " est actuellement à la " + personnage.lieu); */
   
 /*   Pour aller à l'épicerie acheter les ingrédients pour l'omelette, je répète la première étape en changeant le parametre de la method seDeplacer par l'epicerie
   Mon personnage prend un des paniers dans l'épicerie (il récupère le panier dans les objets de l'épicerie et le met dans sa main droite.) */
+/*   Il doit y avoir un objet dans la main droite de personnage et un panier en moins. Vérifier avec des console.log() ensuite afficher un message du type :
+console.log(`${personnage.nom} a pris un ${type du panier}`) */
   let panier = epicerie.paniers.pop();
   personne.mainDroite.push(panier);
   console.log(`${personne.nom} a pris un ${panier.type}`);
   
-  // Prendre chaque ingrédient dans l'épicerie, les mettre dans le panier et les payer
+/*   Je créer une boucle qui va prendre chaque élément (ingrédient) du contenu de l'épicerie (1 à 1) et en faire une COPIE dans le panier du personnage
+  Afficher un message à chaque ingrédient pris */
+/*   Payer chaque ingrédient récupéré dans le panier. Avec une boucle aussi, on va les passer 1 à 1 dans la fonction payerArticle()
+Afficher un message de ce qu'il reste d'argent sur le personnage.
+rentrer à la maison (comme ça on pourra cuisiner) */
   for (let ingredient of epicerie.ingredients) {
-    personne.mainDroite[0].contenu.push({ ...ingredient });
-    console.log(`${personne.nom} a pris ${ingredient.nom} dans l'epicerie`);
-    personne.payerArticle(ingredient);
+    personne.mainDroite[0].contenu.push({ ingredient })
+    console.log(`${personne.nom} a pris ${ingredient.nom} dans l'epicerie`)
+    personne.payerArticle(ingredient)
   }
-
-
+  console.log(`${personne.nom} a ${personne.argent} d'argent restant.`);
+  
+  
+  personne.seDeplacer(maison);
+  
+/*   mettre chaque ingrédient dans le bol (1 à 1 donc avec une boucle)
+Vérifier que les ingrédients ne se trouvent plus dans le panier (oups ! on a oublié de le rapporter x)
+Afficher un petit message de chaque ingrédient qu'on met dans le bol. */
+  for (let ingredient of personne.mainDroite[0].contenu) {
+    bol.contenu.push({ ingredient });
+    console.log(`${ingredient.nom} a ete mis dans le bol`);
+  }
+  
+  console.log(`${personne.nom} a fini de mettre les ingredients dans le bol`);
+  
+/*   Retourner à l'épicerie pour rapporter le panier. (donc seDeplacer puis enlever le panier de la main droite et le remetre dans les paniers de l'épicerie.)
+  Afficher un petit message
+  Retourner à la maison pour continuer l'omelette */
+  personne.seDeplacer(epicerie);
+  epicerie.paniers.push(personne.mainDroite.pop());
+  console.log(`${personne.nom} a rapporté le panier à l'epicerie`);
+  
+ 
+  personne.seDeplacer(maison);
+  
+/*   Vérifier chaque ingrédient dans le bol et le couper seulement s'il est entier ! 
+  Pour ça on utilise la méthode couper de personnage */
+  for (let ingredient of bol.contenu) {
+    personne.couper(ingredient, couteau);
+  }
+  
   
